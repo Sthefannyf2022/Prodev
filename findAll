@@ -1,0 +1,32 @@
+import com.sap.gateway.ip.core.customdev.util.Message;
+import java.util.*;
+import java.lang.*;
+import groovy.json.*;
+import java.lang.Object;
+import java.text.Normalizer
+
+def Message processData(Message message){
+
+    def body = message.getBody(String)
+    def jsonParser = new JsonSlurper();
+    def builder = new JsonBuilder();
+        body = Normalizer
+                .normalize(body, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
+    def jsonObject = jsonParser.parseText(body)
+    def array 
+
+    array = jsonObject.FOEventReason.FOEventReason.findAll{ caminho -> caminho.event == "59972" }.event
+
+    
+
+    
+
+
+    //Output
+    message.setBody(JsonOutput.prettyPrint(JsonOutput.toJson(array)))
+    println (JsonOutput.prettyPrint(JsonOutput.toJson(array)))
+    
+
+    return message
+}
